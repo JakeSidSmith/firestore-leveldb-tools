@@ -1,0 +1,26 @@
+{
+  "name": "firestore-leveldb-tools",
+  "version": "0.0.0",
+  "description": "Documentation and tools for converting LevelDB files into JSON files. (eg. for reading Google Firestore and Datastore backups)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeSidSmith/firestore-leveldb-tools.git"
+  },
+  "keywords": [
+    "firestore",
+    "export",
+    "json",
+    "binary",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JakeSidSmith/firestore-leveldb-tools/issues"
+  },
+  "homepage": "https://github.com/JakeSidSmith/firestore-leveldb-tools#readme"
+}
