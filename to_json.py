@@ -10,8 +10,8 @@ backupFolder = os.path.normpath(sys.argv[1])
 repoRoot = os.path.dirname(os.path.realpath(__file__))
 
 # import google sdks
-sys.path.append(os.path.join(repoRoot, 'SDKs/google_appengine'))
-sys.path.append(os.path.join(repoRoot, 'SDKs/google-cloud-sdk/lib/third_party'))
+sys.path.append(os.path.join(repoRoot, 'vendor/google_appengine'))
+sys.path.append(os.path.join(repoRoot, 'vendor/google-cloud-sdk/lib/third_party'))
 from google.appengine.api.files import records
 from google.appengine.datastore import entity_pb
 from google.appengine.api import datastore
@@ -50,7 +50,7 @@ def Start():
   for filename in os.listdir(backupFolder):
     if not filename.startswith("output-"): continue
     print("Reading from:" + filename)
-    
+
     inPath = os.path.join(backupFolder, filename)
     raw = open(inPath, 'rb')
     reader = records.RecordsReader(raw)
@@ -66,7 +66,7 @@ def Start():
       items.append(entity) # also add to flat list, so we know the total item count
 
       print("Parsing document #" + str(len(items)))
-      
+
   outPath = os.path.join(backupFolder, 'Data.json')
   out = open(outPath, 'w')
   out.write(json.dumps(jsonTree, default=JsonSerializeFunc, encoding='latin-1', indent=2))
