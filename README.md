@@ -31,23 +31,28 @@ Install the correct python version:
 Note: this must be done with `--enable-shared` for `pyinstaller` to work.
 
 ```bash
-env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.4
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 2.7.18
 ```
 
 Ensure your pyenv install was correct and you are now using the correct python version:
 
 ```bash
-pyenv global 3.10.4
 which python
 # Outputs: /Users/user/.pyenv/shims/python
 python --version
-# Outputs: 3.10.4
+# Outputs: 2.7.18
+```
+
+Install virtualenv:
+
+```bash
+pip install virtualenv
 ```
 
 Create a virtual environment:
 
 ```bash
-python -m venv venv
+virtualenv venv
 ```
 
 Install python dependencies:
@@ -61,7 +66,7 @@ Build the binary:
 Note: If you encounter errors you may also need to reinstall python with `--enable-framework`.
 
 ```bash
-venv/bin/pyinstaller to_json.py --onefile
+venv/bin/pyinstaller to_json.py --onefile --target-arch x84_64
 ```
 
 ### Alternatives
