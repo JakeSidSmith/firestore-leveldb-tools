@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['to_json.py'],
+a = Analysis(['src/to_json.py'],
              pathex=[],
              binaries=[],
              datas=[],
