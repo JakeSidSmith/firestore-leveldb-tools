@@ -66,7 +66,7 @@ Build the binary:
 Note: If you encounter errors you may also need to reinstall python with `--enable-framework`.
 
 ```bash
-venv/bin/pyinstaller to_json.py --onefile --target-arch x84_64
+venv/bin/pyinstaller to_json.spec
 ```
 
 ### Alternatives
