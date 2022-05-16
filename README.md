@@ -22,6 +22,48 @@ The `to_json.py` script relies on some modules within the google-cloud-sdk and a
 
 To use the alternate version downloaded, extract the archives, then replace the corresponding contents within the `vendor` folder.
 
+### Building a Binary
+
+If not already installed, install [pyenv](https://github.com/pyenv/pyenv) for managing python versions.
+
+Install the correct python version:
+
+Note: this must be done with `--enable-shared` for `pyinstaller` to work.
+
+```bash
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.10.4
+```
+
+Ensure your pyenv install was correct and you are now using the correct python version:
+
+```bash
+pyenv global 3.10.4
+which python
+# Outputs: /Users/user/.pyenv/shims/python
+python --version
+# Outputs: 3.10.4
+```
+
+Create a virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Install python dependencies:
+
+```bash
+venv/bin/pip install -r requirements.txt
+```
+
+Build the binary:
+
+Note: If you encounter errors you may also need to reinstall python with `--enable-framework`.
+
+```bash
+venv/bin/pyinstaller to_json.py --onefile --target-arch x86_64
+```
+
 ### Alternatives
 
 * [firestore-export-json](https://github.com/labbots/firestore-export-json): Similar, but using some pip-installed dependencies. (and in Python 3)
