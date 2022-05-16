@@ -10,8 +10,6 @@ backupFolder = os.path.normpath(sys.argv[1])
 repoRoot = os.path.dirname(os.path.realpath(__file__))
 
 # import google sdks
-sys.path.append(os.path.join(repoRoot, 'vendor/google_appengine'))
-sys.path.append(os.path.join(repoRoot, 'vendor/google-cloud-sdk/lib/third_party'))
 from google.appengine.api.files import records
 from google.appengine.datastore import entity_pb
 from google.appengine.api import datastore
