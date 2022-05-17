@@ -4,7 +4,7 @@
   "description": "Documentation and tools for converting LevelDB files into JSON files. (eg. for reading Google Firestore and Datastore backups)",
   "main": "index.js",
   "bin": {
-    "firestore-to-json": "./dist/to_json"
+    "firestore-to-json": "./bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
