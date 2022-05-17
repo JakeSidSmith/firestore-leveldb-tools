@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const { execFileSync } = require('child_process');
+const { execFile } = require('child_process');
 const path = require('path');
 
 if (process.platform !== 'darwin') {
@@ -8,4 +8,10 @@ if (process.platform !== 'darwin') {
   process.exit(1);
 }
 
-execFileSync(path.resolve(__dirname, '../dist/to_json'));
+const child = execFile(path.resolve(__dirname, '../dist/to_json'), [
+  process.argv[2] || '',
+  process.argv[3] || '',
+]);
+
+child.stdout.pipe(process.stdout);
+child.stderr.pipe(process.stderr);
