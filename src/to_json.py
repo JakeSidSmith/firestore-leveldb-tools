@@ -9,11 +9,10 @@ from google.appengine.api import datastore
 cwd = os.getcwd()
 # repo_root = os.path.dirname(os.path.realpath(__file__))
 
-
-if len(sys.argv) < 2:
+if len(sys.argv) < 2 or not sys.argv[1]:
     sys.exit("No firestore backup folder specified")
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 3 or not sys.argv[2]:
     sys.exit("No outfile specified")
 
 backup = sys.argv[1]
