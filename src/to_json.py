@@ -86,7 +86,7 @@ def init():
     for filename in os.listdir(backup_folder):
         if not filename.startswith("output-"):
             continue
-        print("Reading from:" + filename)
+        print("Reading from: " + filename)
 
         in_path = os.path.join(backup_folder, filename)
         raw = open(in_path, 'rb')
@@ -104,7 +104,7 @@ def init():
             # also add to flat list, so we know the total item count
             items.append(entity)
 
-            print("Parsing document #" + str(len(items)))
+            print("Parsing document: #" + str(len(items)))
 
     out = open(out_path, 'w')
     out.write(json.dumps(json_tree, default=json_serialize_func,
