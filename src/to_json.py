@@ -1,88 +1,103 @@
 import os
-import io
 import json
 import sys
-
-# command-line arguments
-backupFolder = os.path.normpath(sys.argv[1])
-
-#repoRoot = os.getcwd()
-repoRoot = os.path.dirname(os.path.realpath(__file__))
-
 # import google sdks
 from google.appengine.api.files import records
 from google.appengine.datastore import entity_pb
 from google.appengine.api import datastore
 
-def GetCollectionInJSONTreeForProtoEntity(jsonTree, entity_proto):
-  result = jsonTree
-  for element in entity_proto.key().path().element_list():
-    nextKey = None
-    if element.has_type(): nextKey = element.type()
-    elif element.has_name(): nextKey = element.name()
-    #elif element.has_id(): nextKey = element.id()
+# command-line arguments
+backup_folder = os.path.normpath(sys.argv[1])
 
-    if nextKey is not None:
-      if nextKey not in result:
-        result[nextKey] = {}
-      result = result[nextKey]
-  return result
-'''
-def GetCollectionOfProtoEntity(entity_proto):
-  # reverse path-elements, so we always get last collection
-  for element in entity_proto.key().path().element_list():
-    if element.has_type(): return element.type()
-'''
-def GetKeyOfProtoEntity(entity_proto):
-  # reverse path-elements, so we always get last key
-  for element in reversed(entity_proto.key().path().element_list()):
-    if element.has_name(): return element.name()
-    #if element.has_id(): return element.id()
-def GetValueOfProtoEntity(entity_proto):
-  return datastore.Entity.FromPb(entity_proto)
+# repo_root = os.getcwd()
+repo_root = os.path.dirname(os.path.realpath(__file__))
 
-def Start():
-  jsonTree = {}
-  items = []
 
-  for filename in os.listdir(backupFolder):
-    if not filename.startswith("output-"): continue
-    print("Reading from:" + filename)
+def get_collection_in_json_tree_for_proto_entity(json_tree, entity_proto):
+    result = json_tree
+    for element in entity_proto.key().path().element_list():
+        next_key = None
+        if element.has_type():
+            next_key = element.type()
+        elif element.has_name():
+            next_key = element.name()
+        # elif element.has_id(): next_key = element.id()
 
-    inPath = os.path.join(backupFolder, filename)
-    raw = open(inPath, 'rb')
-    reader = records.RecordsReader(raw)
-    for recordIndex, record in enumerate(reader):
-      entity_proto = entity_pb.EntityProto(contents=record)
+        if next_key is not None:
+            if next_key not in result:
+                result[next_key] = {}
+            result = result[next_key]
+    return result
 
-      #collection = GetCollectionOfProtoEntity(entity_proto)
-      collectionInJSONTree = GetCollectionInJSONTreeForProtoEntity(jsonTree, entity_proto)
-      key = GetKeyOfProtoEntity(entity_proto)
-      entity = GetValueOfProtoEntity(entity_proto)
 
-      collectionInJSONTree[key] = entity
-      items.append(entity) # also add to flat list, so we know the total item count
+# def get_collection_of_proto_entity(entity_proto):
+#     # reverse path-elements, so we always get last collection
+#     for element in entity_proto.key().path().element_list():
+#         if element.has_type():
+#             return element.type()
 
-      print("Parsing document #" + str(len(items)))
 
-  outPath = os.path.join(backupFolder, 'Data.json')
-  out = open(outPath, 'w')
-  out.write(json.dumps(jsonTree, default=JsonSerializeFunc, encoding='latin-1', indent=2))
-  out.close()
-  print("JSON file written to: " + outPath)
+def get_key_of_proto_entity(entity_proto):
+    # reverse path-elements, so we always get last key
+    for element in reversed(entity_proto.key().path().element_list()):
+        if element.has_name():
+            return element.name()
+        # if element.has_id(): return element.id()
 
-def JsonSerializeFunc(obj):
-  import calendar, datetime
 
-  if isinstance(obj, datetime.datetime):
-    if obj.utcoffset() is not None:
-      obj = obj - obj.utcoffset()
-    millis = int(
-      calendar.timegm(obj.timetuple()) * 1000 +
-      obj.microsecond / 1000
-    )
-    return millis
-  #raise TypeError('Not sure how to serialize %s' % (obj,))
-  return str(obj)
+def get_value_of_proto_entity(entity_proto):
+    return datastore.Entity.FromPb(entity_proto)
 
-Start()
+
+def json_serialize_func(obj):
+    import calendar
+    import datetime
+
+    if isinstance(obj, datetime.datetime):
+        if obj.utcoffset() is not None:
+            obj = obj - obj.utcoffset()
+        millis = int(
+            calendar.timegm(obj.timetuple()) * 1000 +
+            obj.microsecond / 1000
+        )
+        return millis
+    # raise TypeError('Not sure how to serialize %s' % (obj,))
+    return str(obj)
+
+
+def init():
+    json_tree = {}
+    items = []
+
+    for filename in os.listdir(backup_folder):
+        if not filename.startswith("output-"):
+            continue
+        print("Reading from:" + filename)
+
+        in_path = os.path.join(backup_folder, filename)
+        raw = open(in_path, 'rb')
+        reader = records.RecordsReader(raw)
+        for record_index, record in enumerate(reader):
+            entity_proto = entity_pb.EntityProto(contents=record)
+
+            # collection = GetCollectionOfProtoEntity(entity_proto)
+            collection_in_json_tree = get_collection_in_json_tree_for_proto_entity(
+                json_tree, entity_proto)
+            key = get_key_of_proto_entity(entity_proto)
+            entity = get_value_of_proto_entity(entity_proto)
+
+            collection_in_json_tree[key] = entity
+            # also add to flat list, so we know the total item count
+            items.append(entity)
+
+            print("Parsing document #" + str(len(items)))
+
+    out_path = os.path.join(backup_folder, 'Data.json')
+    out = open(out_path, 'w')
+    out.write(json.dumps(json_tree, default=json_serialize_func,
+                         encoding='latin-1', indent=2))
+    out.close()
+    print("JSON file written to: " + out_path)
+
+
+init()
