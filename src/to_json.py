@@ -6,11 +6,12 @@ from google.appengine.api.files import records
 from google.appengine.datastore import entity_pb
 from google.appengine.api import datastore
 
-# command-line arguments
-backup_folder = os.path.normpath(sys.argv[1])
+cwd = os.getcwd()
+# repo_root = os.path.dirname(os.path.realpath(__file__))
 
-# repo_root = os.getcwd()
-repo_root = os.path.dirname(os.path.realpath(__file__))
+# command-line arguments
+backup_folder = os.path.join(cwd, os.path.normpath(sys.argv[1]))
+out_path = os.path.join(cwd, os.path.normpath(sys.argv[2]))
 
 
 def get_collection_in_json_tree_for_proto_entity(json_tree, entity_proto):
@@ -92,7 +93,6 @@ def init():
 
             print("Parsing document #" + str(len(items)))
 
-    out_path = os.path.join(backup_folder, 'Data.json')
     out = open(out_path, 'w')
     out.write(json.dumps(json_tree, default=json_serialize_func,
                          encoding='latin-1', indent=2))
