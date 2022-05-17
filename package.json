@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JakeSidSmith/firestore-leveldb-tools.git"
+    "url": "git+https://github.com/Loggedltd/firestore-leveldb-tools.git"
   },
   "keywords": [
     "firestore",
@@ -22,7 +22,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JakeSidSmith/firestore-leveldb-tools/issues"
+    "url": "https://github.com/Loggedltd/firestore-leveldb-tools/issues"
   },
-  "homepage": "https://github.com/JakeSidSmith/firestore-leveldb-tools#readme"
+  "homepage": "https://github.com/Loggedltd/firestore-leveldb-tools#readme"
 }
