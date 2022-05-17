@@ -6,11 +6,25 @@ from google.appengine.api.files import records
 from google.appengine.datastore import entity_pb
 from google.appengine.api import datastore
 
-# command-line arguments
-backup_folder = os.path.normpath(sys.argv[1])
+cwd = os.getcwd()
+# repo_root = os.path.dirname(os.path.realpath(__file__))
 
-# repo_root = os.getcwd()
-repo_root = os.path.dirname(os.path.realpath(__file__))
+
+if len(sys.argv) < 2:
+    sys.exit("No firestore backup folder specified")
+
+if len(sys.argv) < 3:
+    sys.exit("No outfile specified")
+
+backup = sys.argv[1]
+out_file = sys.argv[2]
+
+if not out_file.endswith(".json"):
+    sys.exit("Outfile should have .json extension")
+
+# command-line arguments
+backup_folder = os.path.join(cwd, os.path.normpath(backup))
+out_path = os.path.join(cwd, os.path.normpath(out_file))
 
 
 def get_collection_in_json_tree_for_proto_entity(json_tree, entity_proto):
@@ -68,11 +82,15 @@ def json_serialize_func(obj):
 def init():
     json_tree = {}
     items = []
+    filenames = os.listdir(backup_folder)
 
-    for filename in os.listdir(backup_folder):
+    if "output-0" not in filenames:
+        sys.exit("No 'output-0' file found in specified folder")
+
+    for filename in filenames:
         if not filename.startswith("output-"):
             continue
-        print("Reading from:" + filename)
+        print("Reading from: " + filename)
 
         in_path = os.path.join(backup_folder, filename)
         raw = open(in_path, 'rb')
@@ -90,9 +108,8 @@ def init():
             # also add to flat list, so we know the total item count
             items.append(entity)
 
-            print("Parsing document #" + str(len(items)))
+            print("Parsing document: #" + str(len(items)))
 
-    out_path = os.path.join(backup_folder, 'Data.json')
     out = open(out_path, 'w')
     out.write(json.dumps(json_tree, default=json_serialize_func,
                          encoding='latin-1', indent=2))
