@@ -9,9 +9,22 @@ from google.appengine.api import datastore
 cwd = os.getcwd()
 # repo_root = os.path.dirname(os.path.realpath(__file__))
 
+
+if len(sys.argv) < 2:
+    sys.exit("No firestore backup folder specified")
+
+if len(sys.argv) < 3:
+    sys.exit("No outfile specified")
+
+backup = sys.argv[1]
+out_file = sys.argv[2]
+
+if not out_file.endswith(".json"):
+    sys.exit("Outfile should have .json extension")
+
 # command-line arguments
-backup_folder = os.path.join(cwd, os.path.normpath(sys.argv[1]))
-out_path = os.path.join(cwd, os.path.normpath(sys.argv[2]))
+backup_folder = os.path.join(cwd, os.path.normpath(backup))
+out_path = os.path.join(cwd, os.path.normpath(out_file))
 
 
 def get_collection_in_json_tree_for_proto_entity(json_tree, entity_proto):
