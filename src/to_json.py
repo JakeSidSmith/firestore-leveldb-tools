@@ -110,8 +110,7 @@ def init():
             print("Parsing document: #" + str(len(items)))
 
     out = open(out_path, 'w')
-    out.write(json.dumps(json_tree, default=json_serialize_func,
-                         encoding='latin-1', indent=2))
+    out.write(json.dumps(json_tree, default=json_serialize_func, indent=2).encode("utf-8"))
     out.close()
     print("JSON file written to: " + out_path)
 
