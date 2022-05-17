@@ -30,12 +30,11 @@ def get_collection_in_json_tree_for_proto_entity(jsonTree, entity_proto):
     return result
 
 
-'''
-def GetCollectionOfProtoEntity(entity_proto):
-  # reverse path-elements, so we always get last collection
-  for element in entity_proto.key().path().element_list():
-    if element.has_type(): return element.type()
-'''
+# def get_collection_of_proto_entity(entity_proto):
+#     # reverse path-elements, so we always get last collection
+#     for element in entity_proto.key().path().element_list():
+#         if element.has_type():
+#             return element.type()
 
 
 def get_key_of_proto_entity(entity_proto):
