@@ -82,8 +82,12 @@ def json_serialize_func(obj):
 def init():
     json_tree = {}
     items = []
+    filenames = os.listdir(backup_folder)
 
-    for filename in os.listdir(backup_folder):
+    if "output-0" not in filenames:
+        sys.exit("No 'output-0' file found in specified folder")
+
+    for filename in filenames:
         if not filename.startswith("output-"):
             continue
         print("Reading from: " + filename)
