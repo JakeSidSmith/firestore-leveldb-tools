@@ -1,5 +1,5 @@
 {
-  "name": "firestore-leveldb-tools",
+  "name": "@loggedltd/firestore-leveldb-tools",
   "version": "0.0.0",
   "description": "Documentation and tools for converting LevelDB files into JSON files. (eg. for reading Google Firestore and Datastore backups)",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Loggedltd/firestore-leveldb-tools.git"
+    "url": "git+https://github.com/loggedltd/firestore-leveldb-tools.git"
   },
   "keywords": [
     "firestore",
@@ -23,7 +23,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Loggedltd/firestore-leveldb-tools/issues"
+    "url": "https://github.com/loggedltd/firestore-leveldb-tools/issues"
   },
-  "homepage": "https://github.com/Loggedltd/firestore-leveldb-tools#readme"
+  "homepage": "https://github.com/loggedltd/firestore-leveldb-tools#readme"
 }
