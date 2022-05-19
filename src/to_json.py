@@ -9,11 +9,10 @@ from google.appengine.api import datastore
 cwd = os.getcwd()
 # repo_root = os.path.dirname(os.path.realpath(__file__))
 
-
-if len(sys.argv) < 2:
+if len(sys.argv) < 2 or not sys.argv[1]:
     sys.exit("No firestore backup folder specified")
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 3 or not sys.argv[2]:
     sys.exit("No outfile specified")
 
 backup = sys.argv[1]
@@ -75,7 +74,7 @@ def json_serialize_func(obj):
             obj.microsecond / 1000
         )
         return millis
-    # raise TypeError('Not sure how to serialize %s' % (obj,))
+    # raise TypeError("Not sure how to serialize %s" % (obj,))
     return str(obj)
 
 
@@ -93,7 +92,7 @@ def init():
         print("Reading from: " + filename)
 
         in_path = os.path.join(backup_folder, filename)
-        raw = open(in_path, 'rb')
+        raw = open(in_path, "rb")
         reader = records.RecordsReader(raw)
         for record_index, record in enumerate(reader):
             entity_proto = entity_pb.EntityProto(contents=record)
@@ -110,9 +109,8 @@ def init():
 
             print("Parsing document: #" + str(len(items)))
 
-    out = open(out_path, 'w')
-    out.write(json.dumps(json_tree, default=json_serialize_func,
-                         encoding='latin-1', indent=2))
+    out = open(out_path, "w")
+    out.write(json.dumps(json_tree, default=json_serialize_func, indent=2).encode("utf-8"))
     out.close()
     print("JSON file written to: " + out_path)
 
